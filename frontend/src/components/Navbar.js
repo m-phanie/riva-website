@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, Moon, Sun, Globe } from 'lucide-react'
+import { Menu, X, Moon, Sun, Globe, Settings } from 'lucide-react'
 import Link from 'next/link'
 import { useTheme } from '@/contexts/ThemeContext'
 import { useLanguage } from '@/contexts/LanguageContext'
@@ -10,7 +10,7 @@ import RIVALogo from '@/components/RIVALogo'
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
-  const [isLangOpen, setIsLangOpen] = useState(false)
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false)
   const { theme, toggleTheme } = useTheme()
   const { language, changeLanguage, t } = useLanguage()
 
@@ -69,61 +69,83 @@ export default function Navbar() {
                 </motion.a>
               )
             ))}
-            
-            {/* Language Selector */}
+
+            {/* Settings Menu */}
             <div className="relative">
               <motion.button
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5, delay: 0.35 }}
-                onClick={() => setIsLangOpen(!isLangOpen)}
+                onClick={() => setIsSettingsOpen(!isSettingsOpen)}
                 className="w-10 h-10 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
               >
-                <Globe size={20} />
+                <Settings size={20} />
               </motion.button>
-              
+
               <AnimatePresence>
-                {isLangOpen && (
+                {isSettingsOpen && (
                   <motion.div
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
-                    className="absolute right-0 top-12 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 py-2 w-40"
+                    className="absolute right-0 top-12 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 py-4 w-56"
                   >
-                    {[
-                      { code: 'english', label: 'English' },
-                      { code: 'kinyarwanda', label: 'Kinyarwanda' },
-                      { code: 'french', label: 'Français' }
-                    ].map((lang) => (
+                    {/* Language Selector */}
+                    <div className="px-4 pb-3 border-b border-gray-200 dark:border-gray-700">
+                      <div className="flex items-center space-x-2 mb-3 text-gray-600 dark:text-gray-300">
+                        <Globe size={18} />
+                        <span className="font-medium text-sm">Language</span>
+                      </div>
+                      <div className="space-y-1">
+                        {[
+                          { code: 'english', label: 'English' },
+                          { code: 'kinyarwanda', label: 'Kinyarwanda' },
+                          { code: 'french', label: 'Français' }
+                        ].map((lang) => (
+                          <button
+                            key={lang.code}
+                            onClick={() => {
+                              changeLanguage(lang.code)
+                            }}
+                            className={`w-full px-3 py-2 text-left text-sm rounded-lg transition-colors ${
+                              language === lang.code
+                                ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'
+                                : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                            }`}
+                          >
+                            {lang.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Theme Toggle */}
+                    <div className="px-4 pt-3">
+                      <div className="flex items-center space-x-2 mb-3 text-gray-600 dark:text-gray-300">
+                        {theme === 'light' ? <Sun size={18} /> : <Moon size={18} />}
+                        <span className="font-medium text-sm">Theme</span>
+                      </div>
                       <button
-                        key={lang.code}
-                        onClick={() => {
-                          changeLanguage(lang.code)
-                          setIsLangOpen(false)
-                        }}
-                        className={`w-full px-4 py-2 text-left text-sm transition-colors ${
-                          language === lang.code
-                            ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'
-                            : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
-                        }`}
+                        onClick={toggleTheme}
+                        className="w-full px-3 py-2 text-left text-sm rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors flex items-center space-x-2"
                       >
-                        {lang.label}
+                        {theme === 'light' ? (
+                          <>
+                            <Moon size={16} />
+                            <span>Dark Mode</span>
+                          </>
+                        ) : (
+                          <>
+                            <Sun size={16} />
+                            <span>Light Mode</span>
+                          </>
+                        )}
                       </button>
-                    ))}
+                    </div>
                   </motion.div>
                 )}
               </AnimatePresence>
             </div>
-            
-            <motion.button
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              onClick={toggleTheme}
-              className="w-10 h-10 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-            >
-              {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
-            </motion.button>
             <Link href="/login">
               <motion.button
                 initial={{ opacity: 0, scale: 0.9 }}
@@ -179,41 +201,65 @@ export default function Navbar() {
                   </a>
                 )
               ))}
-              
-              {/* Language Selector Mobile */}
+
+              {/* Settings Mobile */}
               <div className="px-4 py-3 bg-gray-100 dark:bg-gray-800 rounded-lg">
                 <div className="flex items-center space-x-2 mb-3 text-gray-600 dark:text-gray-300">
-                  <Globe size={20} />
-                  <span className="font-medium">Language</span>
+                  <Settings size={20} />
+                  <span className="font-medium">Settings</span>
                 </div>
-                <div className="space-y-2">
-                  {[
-                    { code: 'english', label: 'English' },
-                    { code: 'kinyarwanda', label: 'Kinyarwanda' },
-                    { code: 'french', label: 'Français' }
-                  ].map((lang) => (
-                    <button
-                      key={lang.code}
-                      onClick={() => changeLanguage(lang.code)}
-                      className={`w-full px-4 py-2 text-left text-sm rounded-lg transition-colors ${
-                        language === lang.code
-                          ? 'bg-blue-500 text-white'
-                          : 'text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
-                      }`}
-                    >
-                      {lang.label}
-                    </button>
-                  ))}
+
+                {/* Language Selector */}
+                <div className="mb-4">
+                  <div className="flex items-center space-x-2 mb-2 text-gray-600 dark:text-gray-300 text-sm">
+                    <Globe size={16} />
+                    <span>Language</span>
+                  </div>
+                  <div className="space-y-1">
+                    {[
+                      { code: 'english', label: 'English' },
+                      { code: 'kinyarwanda', label: 'Kinyarwanda' },
+                      { code: 'french', label: 'Français' }
+                    ].map((lang) => (
+                      <button
+                        key={lang.code}
+                        onClick={() => changeLanguage(lang.code)}
+                        className={`w-full px-3 py-2 text-left text-sm rounded-lg transition-colors ${
+                          language === lang.code
+                            ? 'bg-blue-500 text-white'
+                            : 'text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+                        }`}
+                      >
+                        {lang.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Theme Toggle */}
+                <div>
+                  <div className="flex items-center space-x-2 mb-2 text-gray-600 dark:text-gray-300 text-sm">
+                    {theme === 'light' ? <Sun size={16} /> : <Moon size={16} />}
+                    <span>Theme</span>
+                  </div>
+                  <button
+                    onClick={toggleTheme}
+                    className="w-full px-3 py-2 text-left text-sm rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors flex items-center space-x-2"
+                  >
+                    {theme === 'light' ? (
+                      <>
+                        <Moon size={16} />
+                        <span>Dark Mode</span>
+                      </>
+                    ) : (
+                      <>
+                        <Sun size={16} />
+                        <span>Light Mode</span>
+                      </>
+                    )}
+                  </button>
                 </div>
               </div>
-              
-              <button
-                onClick={toggleTheme}
-                className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-800 rounded-lg text-gray-600 dark:text-gray-300 flex items-center justify-center space-x-2"
-              >
-                {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
-                <span>{theme === 'light' ? 'Dark Mode' : 'Light Mode'}</span>
-              </button>
               <Link href="/login" className="w-full">
                 <button className="w-full gradient-btn px-4 py-3 rounded-lg text-white font-semibold">
                   Request Demo →
