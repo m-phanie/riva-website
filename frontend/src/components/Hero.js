@@ -1,63 +1,37 @@
 'use client'
 
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { ArrowRight, Star } from 'lucide-react'
 import Link from 'next/link'
 import { useLanguage } from '@/contexts/LanguageContext'
-import { useState, useEffect } from 'react'
 
 export default function Hero() {
   const { t } = useLanguage()
-  const [currentSlide, setCurrentSlide] = useState(0)
-
-  const backgroundImages = [
-    '/images/s1.jpg',
-    '/images/s2.jpg',
-    '/images/s3.png',
-    '/images/s4.jpg',
-    '/images/s5.jpg'
-  ]
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % backgroundImages.length)
-    }, 3000)
-    return () => clearInterval(interval)
-  }, [])
 
   return (
     <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
-      {/* Background Slider */}
+      {/* Background Image */}
       <div className="absolute inset-0 z-0">
-        <AnimatePresence mode='wait'>
-          <motion.div
-            key={currentSlide}
-            initial={{ opacity: 0, scale: 1 }}
-            animate={{ opacity: 1, scale: 1.05 }}
-            exit={{ opacity: 0, scale: 1 }}
-            transition={{ duration: 1, ease: 'easeInOut' }}
-            className="absolute inset-0"
-          >
-            <img
-              src={backgroundImages[currentSlide]}
-              alt={`Background ${currentSlide + 1}`}
-              className="w-full h-full object-cover"
-              onError={(e) => {
-                e.target.style.display = 'none'
-              }}
-            />
-          </motion.div>
-        </AnimatePresence>
-        {/* Overlay - lighter for image visibility */}
-        <div className="absolute inset-0 bg-white/15 dark:bg-gray-900/30"></div>
+        <img
+          src="/images/s1.jpg"
+          alt="RIVA Background"
+          className="w-full h-full object-cover"
+          onError={(e) => {
+            e.target.style.display = 'none'
+          }}
+        />
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-white/20 via-white/10 to-transparent dark:from-gray-900/20 dark:via-gray-900/10 dark:to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/30"></div>
       </div>
+
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col items-center justify-center text-center">
             {/* Text Content */}
             <motion.div
-              className="w-full max-w-3xl"
+              className="w-full max-w-3xl px-4"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
@@ -73,7 +47,7 @@ export default function Hero() {
             </motion.div>
 
             {/* Headline */}
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-[#0f172a] dark:text-white mb-6 leading-tight">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold text-[#0f172a] dark:text-white mb-6 leading-tight">
               {t('heroTitle')}
               <br />
               <span className="bg-gradient-to-r from-[#2563EB] to-[#7C3AED] bg-clip-text text-transparent">
@@ -86,7 +60,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-xl text-[#475569] dark:text-gray-300 max-w-xl mb-8 leading-relaxed"
+              className="text-lg md:text-xl text-[#475569] dark:text-gray-300 max-w-xl mb-8 leading-relaxed"
             >
               {t('heroDescription')}
             </motion.p>
