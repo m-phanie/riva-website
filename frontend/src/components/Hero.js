@@ -1,23 +1,65 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowRight, Star } from 'lucide-react'
 import Link from 'next/link'
 import { useLanguage } from '@/contexts/LanguageContext'
+import { useState, useEffect } from 'react'
 
 export default function Hero() {
   const { t } = useLanguage()
+  const [currentSlide, setCurrentSlide] = useState(0)
+
+  const backgroundImages = [
+    '/images/s1.jpg',
+    '/images/s2.jpg',
+    '/images/s3.png',
+    '/images/s4.jpg',
+    '/images/s5.jpg'
+  ]
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % backgroundImages.length)
+    }, 3000)
+    return () => clearInterval(interval)
+  }, [])
 
   return (
     <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
+      {/* Background Slider */}
+      <div className="absolute inset-0 z-0">
+        <AnimatePresence mode='wait'>
+          <motion.div
+            key={currentSlide}
+            initial={{ opacity: 0, scale: 1 }}
+            animate={{ opacity: 1, scale: 1.05 }}
+            exit={{ opacity: 0, scale: 1 }}
+            transition={{ duration: 1, ease: 'easeInOut' }}
+            className="absolute inset-0"
+          >
+            <img
+              src={backgroundImages[currentSlide]}
+              alt={`Background ${currentSlide + 1}`}
+              className="w-full h-full object-cover"
+              onError={(e) => {
+                e.target.style.display = 'none'
+              }}
+            />
+          </motion.div>
+        </AnimatePresence>
+        {/* Overlay - lighter for image visibility */}
+        <div className="absolute inset-0 bg-white/15 dark:bg-gray-900/30"></div>
+      </div>
+
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-row items-center justify-between gap-[40px]">
+          <div className="flex flex-col items-center justify-center text-center">
             {/* Text Content */}
             <motion.div
-              className="w-full md:w-1/2 text-center md:text-left"
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
+              className="w-full max-w-3xl"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
             >
             {/* Badge */}
@@ -31,7 +73,7 @@ export default function Hero() {
             </motion.div>
 
             {/* Headline */}
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-[#0F172A] dark:text-white mb-6 leading-tight">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-[#0f172a] dark:text-white mb-6 leading-tight">
               {t('heroTitle')}
               <br />
               <span className="bg-gradient-to-r from-[#2563EB] to-[#7C3AED] bg-clip-text text-transparent">
@@ -56,11 +98,11 @@ export default function Hero() {
               transition={{ duration: 0.8, delay: 0.4 }}
               className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-10"
             >
-              <Link href="/get-started" className="gradient-btn px-8 py-4 rounded-full text-white font-semibold text-lg flex items-center space-x-2">
+              <Link href="/get-started" className="px-8 py-4 bg-[#064e3b] hover:bg-[#065f46] rounded-full text-white font-semibold text-lg transition-all duration-300 flex items-center space-x-2">
                 <span>{t('getStarted')}</span>
                 <ArrowRight className="w-5 h-5" />
               </Link>
-              <Link href="/try-app" className="px-8 py-4 border-2 border-[#2563EB] dark:border-[#7C3AED] rounded-full text-[#2563EB] dark:text-[#7C3AED] font-semibold text-lg hover:bg-[#2563EB] dark:hover:bg-[#7C3AED] hover:text-white transition-all duration-300 flex items-center space-x-2">
+              <Link href="/try-app" className="px-8 py-4 border-2 border-[#064e3b] rounded-full text-[#064e3b] font-semibold text-lg hover:bg-[#064e3b] hover:text-white transition-all duration-300 flex items-center space-x-2">
                 <span>Try Demo App</span>
               </Link>
             </motion.div>
@@ -95,24 +137,6 @@ export default function Hero() {
             </motion.div>
           </motion.div>
 
-          {/* Image */}
-          <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              className="relative w-full md:w-1/2 flex justify-center"
-            >
-              <div className="relative">
-                <img
-                  src="/images/bk.png"
-                  alt="RIVA Dashboard"
-                  className="w-full h-auto max-w-[280px] md:max-w-[380px] rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.2)]"
-                  onError={(e) => {
-                    e.target.style.display = 'none'
-                  }}
-                />
-              </div>
-            </motion.div>
           </div>
         </div>
       </div>
