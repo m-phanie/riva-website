@@ -13,7 +13,7 @@ export default function ChatWidget() {
       {/* Floating Chat Button */}
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center text-white"
+        className="fixed bottom-6 right-6 z-[9999] w-14 h-14 bg-[#2563EB] rounded-full shadow-lg hover:bg-[#1d4ed8] hover:shadow-[0_8px_25px_rgba(37,99,235,0.5)] transition-all duration-300 flex items-center justify-center text-white"
         aria-label="Toggle chat"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
@@ -23,7 +23,7 @@ export default function ChatWidget() {
           <>
             <MessageCircle className="w-6 h-6" />
             <motion.div
-              className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-600 to-purple-600"
+              className="absolute inset-0 rounded-full bg-[#2563EB]"
               animate={{
                 scale: [1, 1.5, 1],
                 opacity: [0.5, 0, 0.5]
@@ -41,7 +41,7 @@ export default function ChatWidget() {
       {/* Chat Window */}
       <AnimatePresence>
         {isOpen && (
-          <div className="fixed bottom-24 right-6 z-50 w-96 max-w-[calc(100vw-3rem)] md:w-[340px]">
+          <div className="fixed bottom-24 right-6 z-[9999] w-96 max-w-[calc(100vw-3rem)] md:w-[340px]">
             <ChatWindow onClose={() => setIsOpen(false)} />
           </div>
         )}

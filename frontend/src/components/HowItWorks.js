@@ -12,33 +12,33 @@ export default function HowItWorks() {
       icon: Settings,
       title: t('installDevice'),
       description: t('installDeviceDesc'),
-      bgGradient: 'from-emerald-900 to-emerald-800',
-      iconBg: 'bg-emerald-500/20',
-      iconColor: 'text-emerald-400',
-      numberBg: 'from-emerald-500 to-emerald-600',
-      cardBorder: 'border-emerald-500/30'
+      bgGradient: 'from-[#2563EB] to-[#7C3AED]',
+      iconBg: 'bg-[#2563EB]/10',
+      iconColor: 'text-[#2563EB]',
+      numberBg: 'from-[#2563EB] to-[#7C3AED]',
+      cardBorder: 'border-gray-200 dark:border-gray-700'
     },
     {
       number: '2',
       icon: Smartphone,
       title: t('connectApp'),
       description: t('connectAppDesc'),
-      bgGradient: 'from-emerald-900 to-emerald-800',
-      iconBg: 'bg-emerald-500/20',
-      iconColor: 'text-emerald-400',
-      numberBg: 'from-emerald-500 to-emerald-600',
-      cardBorder: 'border-emerald-500/30'
+      bgGradient: 'from-[#2563EB] to-[#7C3AED]',
+      iconBg: 'bg-[#7C3AED]/10',
+      iconColor: 'text-[#7C3AED]',
+      numberBg: 'from-[#2563EB] to-[#7C3AED]',
+      cardBorder: 'border-gray-200 dark:border-gray-700'
     },
     {
       number: '3',
       icon: Brain,
       title: t('monitorAI'),
       description: t('monitorAIDesc'),
-      bgGradient: 'from-emerald-900 to-emerald-800',
-      iconBg: 'bg-emerald-500/20',
-      iconColor: 'text-emerald-400',
-      numberBg: 'from-emerald-500 to-emerald-600',
-      cardBorder: 'border-emerald-500/30'
+      bgGradient: 'from-[#2563EB] to-[#7C3AED]',
+      iconBg: 'bg-[#22C55E]/10',
+      iconColor: 'text-[#22C55E]',
+      numberBg: 'from-[#2563EB] to-[#7C3AED]',
+      cardBorder: 'border-gray-200 dark:border-gray-700'
     },
   ]
 
@@ -60,17 +60,17 @@ export default function HowItWorks() {
 
           {steps.map((step, index) => (
             <div key={index} className="relative z-10 text-center">
-              <div className={`bg-gradient-to-br ${step.bgGradient} rounded-2xl shadow-xl hover:shadow-2xl p-8 text-center transition-all duration-300 hover:-translate-y-2 border-2 ${step.cardBorder}`}>
+              <div className="bg-[#064e3b] rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.08)] hover:shadow-xl p-8 text-center transition-all duration-300 hover:-translate-y-2 border-2 border-[#065f46]">
                 <div className="relative inline-block mb-6">
-                  <div className={`w-24 h-24 ${step.iconBg} rounded-2xl flex items-center justify-center shadow-inner`}>
-                    <step.icon className={`w-12 h-12 ${step.iconColor}`} />
+                  <div className={`w-20 h-20 ${step.iconBg} rounded-2xl flex items-center justify-center`}>
+                    <step.icon className={`w-10 h-10 ${step.iconColor}`} />
                   </div>
                   <div className={`absolute -top-2 -right-2 w-10 h-10 bg-gradient-to-br ${step.numberBg} rounded-full flex items-center justify-center text-white font-bold text-sm shadow-lg`}>
                     {step.number}
                   </div>
                 </div>
                 <h3 className="text-xl font-bold text-white mb-3">{step.title}</h3>
-                <p className="text-gray-300">{step.description}</p>
+                <p className="text-sm text-gray-200">{step.description}</p>
               </div>
             </div>
           ))}

@@ -52,22 +52,22 @@ export default function Features() {
           </h2>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
           {features.map((feature, index) => (
             <div
               key={index}
-              className="bg-white dark:bg-gray-800 rounded-2xl shadow-md hover:shadow-xl p-6 text-center transition-all duration-300"
+              className="bg-white dark:bg-gray-800 rounded-[16px] shadow-[0_4px_20px_rgba(0,0,0,0.08)] p-4 text-center transition-all duration-300 hover:translate-y-[-5px] max-w-[200px] mx-auto h-full flex flex-col items-center justify-center"
             >
-              <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 ${feature.color}`}>
-                <feature.icon className="w-8 h-8" />
+              <div className={`w-10 h-10 rounded-xl flex items-center justify-center mx-auto mb-2 ${feature.color}`}>
+                <feature.icon className="w-5 h-5" />
               </div>
-              <h3 className="text-lg font-bold text-[#0F172A] dark:text-white mb-2">{feature.title}</h3>
+              <h3 className="text-sm font-bold text-[#0F172A] dark:text-white mb-1">{feature.title}</h3>
               {feature.badge && (
-                <span className="inline-block px-2 py-1 text-xs font-semibold bg-[#2563EB]/10 dark:bg-[#7C3AED]/10 text-[#2563EB] dark:text-[#7C3AED] rounded-full mb-2">
+                <span className="inline-block px-2 py-0.5 text-[10px] font-semibold bg-[#2563EB]/10 dark:bg-[#7C3AED]/10 text-[#2563EB] dark:text-[#7C3AED] rounded-full mb-1">
                   {feature.badge}
                 </span>
               )}
-              <p className="text-sm text-[#475569] dark:text-gray-400 leading-relaxed">{feature.description}</p>
+              <p className="text-[11px] text-[#475569] dark:text-gray-400 leading-tight">{feature.description}</p>
             </div>
           ))}
         </div>

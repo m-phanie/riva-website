@@ -9,16 +9,17 @@ export default function Hero() {
   const { t } = useLanguage()
 
   return (
-    <section className="relative min-h-screen flex items-center pt-20 overflow-hidden bg-gradient-to-br from-[#F8FAFC] via-[#EAF2FF] to-[#DBEAFE] dark:from-[#0B0F1A] dark:via-[#111827] dark:to-[#1F2937]">
+    <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div className="flex flex-row items-center justify-between gap-[40px]">
             {/* Text Content */}
             <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-          >
+              className="w-full md:w-1/2 text-center md:text-left"
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+            >
             {/* Badge */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -99,20 +100,17 @@ export default function Hero() {
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.3 }}
-              className="relative"
+              className="relative w-full md:w-1/2 flex justify-center"
             >
               <div className="relative">
                 <img
                   src="/images/bk.png"
                   alt="RIVA Dashboard"
-                  className="w-full h-auto rounded-2xl shadow-2xl"
+                  className="w-full h-auto max-w-[280px] md:max-w-[380px] rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.2)]"
                   onError={(e) => {
                     e.target.style.display = 'none'
                   }}
                 />
-                {/* Decorative elements */}
-                <div className="absolute -top-4 -right-4 w-24 h-24 bg-blue-500/20 rounded-full blur-2xl"></div>
-                <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-purple-500/20 rounded-full blur-2xl"></div>
               </div>
             </motion.div>
           </div>

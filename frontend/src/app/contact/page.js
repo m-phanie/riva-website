@@ -15,28 +15,36 @@ export default function Contact() {
       label: t('email'),
       value: 'info@riva.rw',
       link: 'mailto:info@riva.rw',
-      color: 'bg-blue-100 text-blue-600'
+      color: 'bg-blue-100 text-blue-600',
+      gradient: 'linear-gradient(to bottom right, #3b82f6, #2563eb)',
+      glow: 'rgba(59,130,246,0.4)'
     },
     {
       icon: Phone,
       label: t('phone'),
       value: '+250 788 123 456',
       link: 'tel:+250788123456',
-      color: 'bg-green-100 text-green-600'
+      color: 'bg-green-100 text-green-600',
+      gradient: 'linear-gradient(to bottom right, #22c55e, #16a34a)',
+      glow: 'rgba(34,197,94,0.4)'
     },
     {
       icon: MapPin,
       label: 'Address',
       value: 'Kigali, Rwanda',
       link: 'https://maps.google.com',
-      color: 'bg-purple-100 text-purple-600'
+      color: 'bg-purple-100 text-purple-600',
+      gradient: 'linear-gradient(to bottom right, #f97316, #ea580c)',
+      glow: 'rgba(249,115,22,0.4)'
     },
     {
       icon: Clock,
       label: 'Hours',
       value: 'Mon-Fri: 9AM - 6PM',
       link: null,
-      color: 'bg-orange-100 text-orange-600'
+      color: 'bg-orange-100 text-orange-600',
+      gradient: 'linear-gradient(to bottom right, #a855f7, #9333ea)',
+      glow: 'rgba(168,85,247,0.4)'
     },
   ]
 
@@ -46,49 +54,49 @@ export default function Contact() {
       name: 'Facebook',
       handle: 'Riva vehicle assistant',
       link: 'https://facebook.com/Rivavehicleassistant',
-      color: 'bg-blue-600'
+      color: 'bg-[#1877F2]'
     },
     {
       icon: Twitter,
       name: 'Twitter/X',
       handle: '@riva_rwanda',
       link: 'https://twitter.com/riva_rwanda',
-      color: 'bg-sky-500'
+      color: 'bg-[#000000]'
     },
     {
       icon: Linkedin,
       name: 'LinkedIn',
       handle: 'RIVA Technologies',
       link: 'https://linkedin.com/company/riva-technologies',
-      color: 'bg-blue-700'
+      color: 'bg-[#0A66C2]'
     },
     {
       icon: Instagram,
       name: 'Instagram',
       handle: 'riva6302026',
       link: 'https://instagram.com/riva6302026',
-      color: 'bg-pink-600'
+      color: 'bg-[#E4405F]'
     },
     {
       icon: Youtube,
       name: 'YouTube',
       handle: 'RIVA Official',
       link: 'https://youtube.com/@rivaofficial',
-      color: 'bg-red-600'
+      color: 'bg-[#FF0000]'
     },
     {
       icon: MessageCircle,
       name: 'WhatsApp',
       handle: '+250 788 123 456',
       link: 'https://wa.me/250788123456',
-      color: 'bg-green-500'
+      color: 'bg-[#25D366]'
     },
     {
       icon: Globe,
       name: 'Website',
       handle: 'www.riva.rw',
       link: 'https://www.riva.rw',
-      color: 'bg-indigo-600'
+      color: 'bg-[#4F46E5]'
     },
   ]
 
@@ -118,7 +126,7 @@ export default function Contact() {
       {/* Contact Information */}
       <section className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-16">
             {contactInfo.map((info, index) => (
               <motion.a
                 key={index}
@@ -127,13 +135,20 @@ export default function Contact() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6 text-center hover:shadow-lg transition-shadow"
+                whileHover={{ translateY: -8 }}
+                className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-[10px] rounded-[16px] p-5 text-center shadow-[0_8px_25px_rgba(0,0,0,0.08)] hover:shadow-[0_12px_35px_rgba(0,0,0,0.12)] transition-all duration-300"
               >
-                <div className={`w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4 ${info.color}`}>
-                  <info.icon className="w-7 h-7" />
+                <div 
+                  className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4"
+                  style={{
+                    background: info.gradient,
+                    boxShadow: `0 0 15px ${info.glow}`
+                  }}
+                >
+                  <info.icon className="w-7 h-7 text-white" />
                 </div>
-                <h3 className="text-sm font-semibold text-[#475569] dark:text-gray-400 mb-2">{info.label}</h3>
-                <p className="text-lg font-bold text-[#0F172A] dark:text-white">{info.value}</p>
+                <h3 className="text-[14px] font-semibold text-[#64748b] dark:text-gray-400 mb-2">{info.label}</h3>
+                <p className="text-[18px] font-semibold text-[#0f172a] dark:text-white">{info.value}</p>
               </motion.a>
             ))}
           </div>
@@ -145,63 +160,63 @@ export default function Contact() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
-              className="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-8"
+              className="bg-white dark:bg-gray-800 rounded-[16px] p-8 shadow-[0_8px_25px_rgba(0,0,0,0.08)]"
             >
               <h2 className="text-2xl font-bold text-[#0F172A] dark:text-white mb-6">{t('sendMessage')}</h2>
-              <form className="space-y-6">
+              <form className="space-y-5">
                 <div>
-                  <label className="block text-sm font-semibold text-[#475569] dark:text-gray-400 mb-2">
+                  <label className="block text-[14px] font-semibold text-[#64748b] dark:text-gray-400 mb-2">
                     {t('fullName')}
                   </label>
                   <input
                     type="text"
                     placeholder="John Doe"
-                    className="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:border-[#1a6fd4] transition-colors bg-white dark:bg-gray-700 text-[#0F172A] dark:text-white"
+                    className="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:border-[#3b82f6] focus:ring-2 focus:ring-[#3b82f6]/20 transition-all bg-white/50 dark:bg-gray-700/50 text-[#0f172a] dark:text-white placeholder-gray-400"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-[#475569] dark:text-gray-400 mb-2">
+                  <label className="block text-[14px] font-semibold text-[#64748b] dark:text-gray-400 mb-2">
                     {t('emailAddress')}
                   </label>
                   <input
                     type="email"
                     placeholder="john@example.com"
-                    className="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:border-[#1a6fd4] transition-colors bg-white dark:bg-gray-700 text-[#0F172A] dark:text-white"
+                    className="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:border-[#3b82f6] focus:ring-2 focus:ring-[#3b82f6]/20 transition-all bg-white/50 dark:bg-gray-700/50 text-[#0f172a] dark:text-white placeholder-gray-400"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-[#475569] dark:text-gray-400 mb-2">
+                  <label className="block text-[14px] font-semibold text-[#64748b] dark:text-gray-400 mb-2">
                     {t('phoneNumber')}
                   </label>
                   <input
                     type="tel"
                     placeholder="+250 788 123 456"
-                    className="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:border-[#1a6fd4] transition-colors bg-white dark:bg-gray-700 text-[#0F172A] dark:text-white"
+                    className="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:border-[#3b82f6] focus:ring-2 focus:ring-[#3b82f6]/20 transition-all bg-white/50 dark:bg-gray-700/50 text-[#0f172a] dark:text-white placeholder-gray-400"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-[#475569] dark:text-gray-400 mb-2">
+                  <label className="block text-[14px] font-semibold text-[#64748b] dark:text-gray-400 mb-2">
                     {t('subject')}
                   </label>
                   <input
                     type="text"
                     placeholder={t('howCanWeHelp')}
-                    className="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:border-[#1a6fd4] transition-colors bg-white dark:bg-gray-700 text-[#0F172A] dark:text-white"
+                    className="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:border-[#3b82f6] focus:ring-2 focus:ring-[#3b82f6]/20 transition-all bg-white/50 dark:bg-gray-700/50 text-[#0f172a] dark:text-white placeholder-gray-400"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-[#475569] dark:text-gray-400 mb-2">
+                  <label className="block text-[14px] font-semibold text-[#64748b] dark:text-gray-400 mb-2">
                     {t('message')}
                   </label>
                   <textarea
                     rows={5}
                     placeholder={t('tellUsMore')}
-                    className="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:border-[#1a6fd4] transition-colors resize-none bg-white dark:bg-gray-700 text-[#0F172A] dark:text-white"
+                    className="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:border-[#3b82f6] focus:ring-2 focus:ring-[#3b82f6]/20 transition-all resize-none bg-white/50 dark:bg-gray-700/50 text-[#0f172a] dark:text-white placeholder-gray-400"
                   />
                 </div>
                 <button
                   type="submit"
-                  className="w-full px-8 py-4 bg-[#1a6fd4] rounded-full text-white font-semibold text-lg hover:bg-[#1558b0] transition-colors flex items-center justify-center space-x-2"
+                  className="w-full px-8 py-4 bg-[#2563EB] rounded-full text-white font-semibold text-lg hover:bg-[#1d4ed8] hover:shadow-[0_8px_25px_rgba(37,99,235,0.5)] transition-all duration-300 flex items-center justify-center space-x-2"
                 >
                   <Send className="w-5 h-5" />
                   <span>{t('sendButton')}</span>
