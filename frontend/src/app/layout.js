@@ -2,7 +2,7 @@ import './globals.css'
 import { Inter } from 'next/font/google'
 import { ThemeProvider } from '@/contexts/ThemeContext'
 import { LanguageProvider } from '@/contexts/LanguageContext'
-import ChatWidget from '@/components/ChatWidget'
+import ConditionalChatWidget from '@/components/ConditionalChatWidget'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -22,7 +22,7 @@ export default function RootLayout({ children }) {
         <LanguageProvider>
           <ThemeProvider>
             {children}
-            <ChatWidget />
+            <ConditionalChatWidget />
           </ThemeProvider>
         </LanguageProvider>
       </body>

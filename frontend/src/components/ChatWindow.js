@@ -5,13 +5,13 @@ import { Send, Bot, User, Minimize2, Mic, Globe, X } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { usePathname } from 'next/navigation'
 
-export default function ChatWindow({ onClose }) {
+export default function ChatWindow({ onClose, drivers }) {
   const pathname = usePathname()
   const [messages, setMessages] = useState([
     {
       id: 1,
       role: 'assistant',
-      content: "Hi! I'm RIVA AI, your intelligent assistant. I can help you with:\n\n• Customer support & questions about RIVA\n• Website navigation\n• Fleet management assistance\n• General inquiries\n\nHow can I help you today?"
+      content: "Hi! I'm RIVA AI, your intelligent assistant. I can help you with:\n\n• Customer support & questions about RIVA\n• Website navigation\n• Fleet management assistance\n• Driver information and status\n• General inquiries\n\nHow can I help you today?"
     }
   ])
   const [input, setInput] = useState('')
@@ -89,6 +89,8 @@ export default function ChatWindow({ onClose }) {
     setInput('')
     setIsTyping(true)
 
+    console.log('ChatWindow - Sending drivers to API:', drivers)
+
     try {
       const response = await fetch('/api/chat', {
         method: 'POST',
@@ -98,7 +100,8 @@ export default function ChatWindow({ onClose }) {
         body: JSON.stringify({ 
           message: messageToSend,
           page: pathname,
-          language: language
+          language: language,
+          drivers: drivers
         }),
       })
 
@@ -135,6 +138,35 @@ export default function ChatWindow({ onClose }) {
 
   const generateAIResponse = (userInput) => {
     const input = userInput.toLowerCase().trim()
+
+    // Driver-related queries
+    if (input.includes('driver') || input.includes('drivers')) {
+      if (!drivers || drivers.length === 0) {
+        return "I don't have access to driver information right now. Please make sure you're on the manager dashboard and drivers are loaded."
+      }
+
+      // Show all drivers
+      if (input.includes('show') || input.includes('list') || input.includes('all') || input.includes('what')) {
+        const driverList = drivers.map(driver => 
+          `• ${driver.name}\n  📧 Email: ${driver.email}\n  📱 Phone: ${driver.phone}\n  🚗 Plate: ${driver.plate}\n  📍 Location: ${driver.location}\n  ⛽ Fuel: ${driver.fuel}%\n  🏎️ Speed: ${driver.speed} km/h\n  ✅ Status: ${driver.status || 'Active'}`
+        ).join('\n\n')
+        return `Here are all the drivers in your fleet:\n\n${driverList}\n\nTotal drivers: ${drivers.length}`
+      }
+
+      // Find specific driver by name
+      const driverName = drivers.find(d => input.includes(d.name.toLowerCase()))
+      if (driverName) {
+        return `Here's information about ${driverName.name}:\n\n📧 Email: ${driverName.email}\n📱 Phone: ${driverName.phone}\n🚗 Plate: ${driverName.plate}\n📍 Location: ${driverName.location}\n⛽ Fuel: ${driverName.fuel}%\n🏎️ Speed: ${driverName.speed} km/h\n✅ Status: ${driverName.status || 'Active'}`
+      }
+
+      // Driver count
+      if (input.includes('how many') || input.includes('count')) {
+        return `You currently have ${drivers.length} driver${drivers.length !== 1 ? 's' : ''} in your fleet.`
+      }
+
+      // General driver info
+      return `I have access to your fleet's driver information. You have ${drivers.length} driver${drivers.length !== 1 ? 's' : ''}. You can ask me to:\n\n• Show all drivers\n• Find a specific driver by name\n• Get driver contact information\n• Check driver status and location\n• View fuel levels and speed\n\nWhat would you like to know about your drivers?`
+    }
 
     // Customer Support - Pricing
     if (input.includes('price') || input.includes('cost') || input.includes('pricing') || input.includes('how much') || input.includes('pay')) {
@@ -188,12 +220,12 @@ export default function ChatWindow({ onClose }) {
 
     // Greetings
     if (input.includes('hello') || input.includes('hi') || input.includes('hey') || input.includes('good morning') || input.includes('good afternoon')) {
-      return "Hello there! 👋 Welcome to RIVA! I'm your AI assistant, and I'm here to help you with anything you need.\n\nI can assist you with:\n• Questions about RIVA's features and services\n• Navigating the website\n• Fleet management information\n• Getting in touch with our team\n\nWhat would you like to know today?"
+      return "Hello there! 👋 Welcome to RIVA! I'm your AI assistant, and I'm here to help you with anything you need.\n\nI can assist you with:\n• Questions about RIVA's features and services\n• Navigating the website\n• Fleet management information\n• Driver information and status\n• Getting in touch with our team\n\nWhat would you like to know today?"
     }
 
     // Thanks
     if (input.includes('thank') || input.includes('thanks') || input.includes('appreciate')) {
-      return "You're very welcome! 😊 I'm always here to help whenever you need assistance with RIVA. Whether you have questions about our services, need help navigating the site, or want to learn more about fleet management, don't hesitate to ask.\n\nIs there anything else I can help you with today?"
+      return "You're very welcome! 😊 I'm always here to help whenever you need assistance with RIVA. Whether you have questions about our services, need help navigating the site, want to learn more about fleet management, or need driver information, don't hesitate to ask.\n\nIs there anything else I can help you with today?"
     }
 
     // Bye
@@ -202,7 +234,7 @@ export default function ChatWindow({ onClose }) {
     }
 
     // Default response with helpful suggestions
-    return "I appreciate your question! While I'm still learning, I'd love to help you find the information you need.\n\nI can assist with topics like:\n\n💰 **Pricing and plans**\n🚗 **Features and capabilities**\n📍 **Website navigation**\n📞 **Contact information**\n🛡️ **Safety and accident prevention**\n⛽ **Fuel theft detection**\n\nCould you rephrase your question or let me know which topic you're interested in? I'm here to help!"
+    return "I appreciate your question! While I'm still learning, I'd love to help you find the information you need.\n\nI can assist with topics like:\n\n💰 **Pricing and plans**\n🚗 **Features and capabilities**\n📍 **Website navigation**\n👨‍💼 **Driver information and status**\n📞 **Contact information**\n🛡️ **Safety and accident prevention**\n⛽ **Fuel theft detection**\n\nCould you rephrase your question or let me know which topic you're interested in? I'm here to help!"
   }
 
   return (

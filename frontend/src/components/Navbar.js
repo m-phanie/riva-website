@@ -99,7 +99,6 @@ export default function Navbar() {
                       <div className="space-y-1">
                         {[
                           { code: 'english', label: 'English' },
-                          { code: 'kinyarwanda', label: 'Kinyarwanda' },
                           { code: 'french', label: 'Français' }
                         ].map((lang) => (
                           <button
@@ -218,7 +217,6 @@ export default function Navbar() {
                   <div className="space-y-1">
                     {[
                       { code: 'english', label: 'English' },
-                      { code: 'kinyarwanda', label: 'Kinyarwanda' },
                       { code: 'french', label: 'Français' }
                     ].map((lang) => (
                       <button

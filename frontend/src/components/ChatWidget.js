@@ -5,7 +5,7 @@ import { MessageCircle, X } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import ChatWindow from './ChatWindow'
 
-export default function ChatWidget() {
+export default function ChatWidget({ drivers }) {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
@@ -42,7 +42,7 @@ export default function ChatWidget() {
       <AnimatePresence>
         {isOpen && (
           <div className="fixed bottom-24 right-6 z-[9999] w-96 max-w-[calc(100vw-3rem)] md:w-[340px]">
-            <ChatWindow onClose={() => setIsOpen(false)} />
+            <ChatWindow onClose={() => setIsOpen(false)} drivers={drivers} />
           </div>
         )}
       </AnimatePresence>

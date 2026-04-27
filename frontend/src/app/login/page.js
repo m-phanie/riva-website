@@ -16,18 +16,44 @@ export default function Login() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState('')
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     setIsSubmitting(true)
     setError('')
-    
-    // Simulate login - in production, this would call an API
-    setTimeout(() => {
-      console.log('Login:', formData)
-      // For demo purposes, redirect to dashboard or home
-      window.location.href = '/'
+
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+
+      const data = await response.json()
+
+      if (response.ok) {
+        // Store token and user data in localStorage
+        localStorage.setItem('token', data.token)
+        localStorage.setItem('user', JSON.stringify(data.user))
+
+        // Redirect based on user role
+        const role = data.user.role
+        if (role === 'driver') {
+          window.location.href = '/driver-dashboard'
+        } else if (role === 'manager') {
+          window.location.href = '/manager-dashboard'
+        } else if (role === 'admin') {
+          window.location.href = '/admin-dashboard'
+        }
+      } else {
+        setError(data.message || 'Login failed')
+      }
+    } catch (error) {
+      setError('Network error. Please ensure backend is running.')
+    } finally {
       setIsSubmitting(false)
-    }, 1000)
+    }
   }
 
   return (
