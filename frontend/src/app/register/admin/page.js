@@ -32,7 +32,7 @@ export default function AdminRegister() {
     console.log('Admin Register - Registering as admin')
 
     try {
-      const response = await fetch('http://localhost:5000/api/auth/register', {
+      const response = await fetch(`https://riva-website.onrender.com/api/auth/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

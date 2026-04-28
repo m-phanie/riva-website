@@ -154,7 +154,7 @@ export default function ManagerDashboard() {
   const fetchUsers = async () => {
     try {
       const token = localStorage.getItem('token')
-      const response = await fetch(`https://riva-website.onrender.com/api/auth/users`, {
+      const response = await fetch('http://localhost:5000/api/auth/users', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -264,7 +264,7 @@ export default function ManagerDashboard() {
       }
 
       try {
-        const response = await fetch(`https://riva-website.onrender.com/api/auth/register`, {
+        const response = await fetch('http://localhost:5000/api/auth/register', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -364,7 +364,7 @@ export default function ManagerDashboard() {
           updateData.password = editDriver.password
         }
 
-        const response = await fetch(`https://riva-website.onrender.com/api/auth/users/${editDriver.id}`, {
+        const response = await fetch(`http://localhost:5000/api/auth/users/${editDriver.id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -415,7 +415,7 @@ export default function ManagerDashboard() {
 
     try {
       const token = localStorage.getItem('token')
-      const response = await fetch(`https://riva-website.onrender.com/api/auth/users/${driverId}`, {
+      const response = await fetch(`http://localhost:5000/api/auth/users/${driverId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`

@@ -35,7 +35,7 @@ export default function DriverRegister() {
     console.log('Driver Register - Registering as driver')
 
     try {
-      const response = await fetch(`https://riva-website.onrender.com/api/auth/register`, {
+      const response = await fetch('http://localhost:5000/api/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

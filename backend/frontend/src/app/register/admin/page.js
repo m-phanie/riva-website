@@ -1,24 +1,21 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Mail, Lock, User, ArrowRight, Eye, EyeOff, Car, Phone, CreditCard, Upload } from 'lucide-react'
+import { Mail, Lock, User, ArrowRight, Eye, EyeOff, Shield } from 'lucide-react'
 import { useState } from 'react'
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 
-export default function DriverRegister() {
+export default function AdminRegister() {
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    phone: '',
-    idNumber: '',
     password: '',
     confirmPassword: ''
   })
-  const [profilePicture, setProfilePicture] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
 
@@ -32,10 +29,10 @@ export default function DriverRegister() {
     setIsLoading(true)
     setError('')
 
-    console.log('Driver Register - Registering as driver')
+    console.log('Admin Register - Registering as admin')
 
     try {
-      const response = await fetch(`https://riva-website.onrender.com/api/auth/register`, {
+      const response = await fetch('http://localhost:5000/api/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -43,28 +40,18 @@ export default function DriverRegister() {
         body: JSON.stringify({
           name: formData.name,
           email: formData.email,
-          phone: formData.phone,
-          idNumber: formData.idNumber,
           password: formData.password,
-          role: 'driver', // Hardcoded to driver
+          role: 'admin', // Hardcoded to admin
         }),
       })
 
       const data = await response.json()
-      console.log('Driver Register - Response:', data)
+      console.log('Admin Register - Response:', data)
 
       if (response.ok) {
         localStorage.setItem('token', data.token)
         localStorage.setItem('user', JSON.stringify(data.user))
-        // Save additional driver info for onboarding
-        const userData = JSON.parse(localStorage.getItem('user'))
-        userData.driverInfo = {
-          phone: formData.phone,
-          idNumber: formData.idNumber,
-          profilePicture: profilePicture
-        }
-        localStorage.setItem('user', JSON.stringify(userData))
-        window.location.href = '/onboarding/driver'
+        window.location.href = '/admin-dashboard'
       } else {
         setError(data.message || 'Registration failed')
       }
@@ -76,7 +63,7 @@ export default function DriverRegister() {
   }
 
   return (
-    <div className="min-h-screen bg-[#f0f4ff] dark:bg-gray-900">
+    <div className="min-h-screen bg-gradient-to-br from-[#1E293B] via-[#334155] to-[#475569] dark:from-[#0C1222] dark:via-[#1E293B] dark:to-[#334155]">
       <Navbar />
       
       <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8">
@@ -89,13 +76,13 @@ export default function DriverRegister() {
           >
             <div className="text-center mb-8">
               <div className="w-20 h-20 bg-gradient-to-r from-[#2563EB] to-[#7C3AED] rounded-full flex items-center justify-center mx-auto mb-4">
-                <Car className="w-10 h-10 text-white" />
+                <Shield className="w-10 h-10 text-white" />
               </div>
               <h1 className="text-3xl font-bold text-[#0F172A] dark:text-white mb-2">
-                Driver Registration
+                Admin Registration
               </h1>
               <p className="text-gray-600 dark:text-gray-400">
-                Join RIVA as a driver
+                Government/Authority Account
               </p>
             </div>
 
@@ -131,60 +118,11 @@ export default function DriverRegister() {
                   <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                   <input
                     type="email"
-                    placeholder="you@example.com"
+                    placeholder="admin@government.rw"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     className="w-full pl-10 pr-4 py-3 border border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:border-[#1a6fd4] dark:bg-gray-700 dark:text-white transition-colors"
                     required
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-[#0F172A] dark:text-white mb-2">
-                  Phone Number
-                </label>
-                <div className="relative">
-                  <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                  <input
-                    type="tel"
-                    placeholder="+250 788 123 456"
-                    value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="w-full pl-10 pr-4 py-3 border border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:border-[#1a6fd4] dark:bg-gray-700 dark:text-white transition-colors"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-[#0F172A] dark:text-white mb-2">
-                  National ID Number
-                </label>
-                <div className="relative">
-                  <CreditCard className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                  <input
-                    type="text"
-                    placeholder="11998800XXXX"
-                    value={formData.idNumber}
-                    onChange={(e) => setFormData({ ...formData, idNumber: e.target.value })}
-                    className="w-full pl-10 pr-4 py-3 border border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:border-[#1a6fd4] dark:bg-gray-700 dark:text-white transition-colors"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-[#0F172A] dark:text-white mb-2">
-                  Profile Picture
-                </label>
-                <div className="relative">
-                  <Upload className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => setProfilePicture(e.target.files[0])}
-                    className="w-full pl-10 pr-4 py-3 border border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:border-[#1a6fd4] dark:bg-gray-700 dark:text-white transition-colors"
                   />
                 </div>
               </div>
@@ -246,7 +184,7 @@ export default function DriverRegister() {
                   <span>Creating Account...</span>
                 ) : (
                   <>
-                    <span>Create Driver Account</span>
+                    <span>Create Admin Account</span>
                     <ArrowRight className="w-5 h-5" />
                   </>
                 )}
@@ -265,12 +203,12 @@ export default function DriverRegister() {
             <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700 text-center">
               <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">Register as:</p>
               <div className="flex space-x-4 justify-center">
-                <Link href="/register/manager" className="text-[#1a6fd4] hover:text-[#0f5cc4] font-semibold text-sm">
-                  Fleet Manager
+                <Link href="/register/driver" className="text-[#1a6fd4] hover:text-[#0f5cc4] font-semibold text-sm">
+                  Driver
                 </Link>
                 <span className="text-gray-400">•</span>
-                <Link href="/register/admin" className="text-[#1a6fd4] hover:text-[#0f5cc4] font-semibold text-sm">
-                  Admin
+                <Link href="/register/manager" className="text-[#1a6fd4] hover:text-[#0f5cc4] font-semibold text-sm">
+                  Fleet Manager
                 </Link>
               </div>
             </div>
