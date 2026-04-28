@@ -6,6 +6,11 @@ const { getUsers, saveUsers } = require('../config/db');
 
 const router = express.Router();
 
+router.use((req, res, next) => {
+  console.log(`[AUTH] ${req.method} ${req.originalUrl}`);
+  next();
+});
+
 // @route   POST /api/auth/register
 // @desc    Register new user (default role: driver)
 // @access  Public

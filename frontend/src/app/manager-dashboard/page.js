@@ -5,7 +5,7 @@ import { Truck, MapPin, Fuel, Users, TrendingUp, AlertCircle, MessageSquare, Sen
 import { useEffect, useState } from 'react'
 import ChatWidget from '@/components/ChatWidget'
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL
+const API_URL = (process.env.NEXT_PUBLIC_API_URL || '').replace(/\/+$/, '')
 
 export default function ManagerDashboard() {
   const [user, setUser] = useState(null)

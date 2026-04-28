@@ -7,7 +7,7 @@ import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL
+const API_URL = (process.env.NEXT_PUBLIC_API_URL || '').replace(/\/+$/, '')
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false)
