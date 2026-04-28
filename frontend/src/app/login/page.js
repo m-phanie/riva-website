@@ -7,6 +7,8 @@ import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL
+
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false)
   const [formData, setFormData] = useState({
@@ -22,7 +24,7 @@ export default function Login() {
     setError('')
 
     try {
-      const response = await fetch(`https://riva-website.onrender.com/api/auth/login`, {
+      const response = await fetch(`${API_URL}/api/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
