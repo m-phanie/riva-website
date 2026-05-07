@@ -6,8 +6,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
-
-const API_URL = (process.env.NEXT_PUBLIC_API_URL || '').replace(/\/+$/, '')
+import { buildApiUrl } from '@/lib/api'
 
 export default function ManagerRegister() {
   const [showPassword, setShowPassword] = useState(false)
@@ -36,7 +35,7 @@ export default function ManagerRegister() {
     console.log('Manager Register - Registering as manager')
 
     try {
-      const response = await fetch(`${API_URL}/api/auth/register`, {
+      const response = await fetch(buildApiUrl('/api/auth/register'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -6,6 +6,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
+import { buildApiUrl } from '@/lib/api'
 
 export default function DriverRegister() {
   const [showPassword, setShowPassword] = useState(false)
@@ -35,7 +36,7 @@ export default function DriverRegister() {
     console.log('Driver Register - Registering as driver')
 
     try {
-      const response = await fetch('http://localhost:5000/api/auth/register', {
+      const response = await fetch(buildApiUrl('/api/auth/register'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

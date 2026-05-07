@@ -4,8 +4,7 @@ import { motion } from 'framer-motion'
 import { Truck, MapPin, Fuel, Users, TrendingUp, AlertCircle, MessageSquare, Send, X, Bell, Car, Phone, Mail, CreditCard, Upload, Edit, Trash2 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import ChatWidget from '@/components/ChatWidget'
-
-const API_URL = (process.env.NEXT_PUBLIC_API_URL || '').replace(/\/+$/, '')
+import { buildApiUrl } from '@/lib/api'
 
 export default function ManagerDashboard() {
   const [user, setUser] = useState(null)
@@ -156,7 +155,7 @@ export default function ManagerDashboard() {
   const fetchUsers = async () => {
     try {
       const token = localStorage.getItem('token')
-      const response = await fetch(`${API_URL}/api/auth/users`, {
+      const response = await fetch(buildApiUrl('/api/auth/users'), {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -266,7 +265,7 @@ export default function ManagerDashboard() {
       }
 
       try {
-        const response = await fetch(`${API_URL}/api/auth/register`, {
+        const response = await fetch(buildApiUrl('/api/auth/register'), {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -366,7 +365,7 @@ export default function ManagerDashboard() {
           updateData.password = editDriver.password
         }
 
-        const response = await fetch(`${API_URL}/api/auth/users/${editDriver.id}`, {
+        const response = await fetch(buildApiUrl(`/api/auth/users/${editDriver.id}`), {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -417,7 +416,7 @@ export default function ManagerDashboard() {
 
     try {
       const token = localStorage.getItem('token')
-      const response = await fetch(`${API_URL}/api/auth/users/${driverId}`, {
+      const response = await fetch(buildApiUrl(`/api/auth/users/${driverId}`), {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`

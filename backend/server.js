@@ -11,9 +11,21 @@ connectDB();
 
 const app = express();
 
+const allowedOrigins = [
+  'http://localhost:3000',
+  'http://127.0.0.1:3000',
+  ...(process.env.FRONTEND_URLS ? process.env.FRONTEND_URLS.split(',').map((origin) => origin.trim()).filter(Boolean) : []),
+  ...(process.env.FRONTEND_URL ? [process.env.FRONTEND_URL.trim()] : [])
+];
+
 // Middleware
 app.use(cors({
-  origin: 'https://riva-website-six.vercel.app',
+  origin: (origin, callback) => {
+    // Allow server-to-server and same-origin requests with no Origin header.
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    return callback(new Error(`CORS blocked for origin: ${origin}`));
+  },
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));

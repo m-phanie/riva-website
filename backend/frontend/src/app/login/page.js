@@ -6,6 +6,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
+import { buildApiUrl } from '@/lib/api'
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false)
@@ -22,7 +23,7 @@ export default function Login() {
     setError('')
 
     try {
-      const response = await fetch('http://localhost:5000/api/auth/login', {
+      const response = await fetch(buildApiUrl('/api/auth/login'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
